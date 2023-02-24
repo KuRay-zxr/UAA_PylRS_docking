@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH -J BnD_refine
+#SBATCH -p cn-short
+#SBATCH -N 1 
+#SBATCH --ntasks-per-node=20
+#SBATCH -o %j.out
+#SBATCH -e %j.err
+#SBATCH --no-requeue
+### pkurun  sleep 111
+
+cd /lustre2/pengchen_pkuhpc/ZhangXianrui/PylRS_design/refine/UBnO-D/ 
+hosts=`scontrol show hostname $SLURM_JOB_NODELIST` 
+echo $(date +%F%n%T)  > start_tim.txt
+echo $hosts >> start_tim.txt
+source /usr/mpi/gcc/openmpi-4.0.0rc5/bin/mpivars.sh
+source   /home/pengchen_pkuhpc/.bashrc
+
+mpirun -n 20 /appsnew/mdapps/rosetta/rosetta_src_2018.33.60351_bundle/main/source/bin/rosetta_scripts.mpi.linuxgccrelease @options
+ 
+
+
+echo $(date +%F%n%T)  >> start_tim.txt
+

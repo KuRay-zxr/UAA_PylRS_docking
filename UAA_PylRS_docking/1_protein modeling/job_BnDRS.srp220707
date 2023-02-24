@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH -J af2_BnDRS
+#SBATCH -p gpu_4l
+#SBATCH -N 1 
+#SBATCH -o %j.out
+#SBATCH -e %j.err
+hosts=`scontrol show hostname $SLURM_JOB_NODELIST` ;echo $hosts
+echo CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES
+data=/lustre2/alphafold-main/scripts
+source /appsnew/source/Miniconda3-py38_4.10.3-alphafold.sh
+time bash run_alphafold.sh -d  $data   -o /home/pengchen_pkuhpc/lustre2/ZhangXianrui/af2/pylRS/BnDRS/output -m model_1 -f /home/pengchen_pkuhpc/lustre2/ZhangXianrui/af2/pylRS/BnDRS/BnDRS.fasta -t 2023-02-02 -g -a $CUDA_VISIBLE_DEVICES 
